@@ -190,6 +190,33 @@
       border:2px solid rgba(79,195,247,.4); border-radius:8px; z-index:-1;
     }
 
+    /* ─── EDUCATION ──────────────────────────────── */
+    .edu-list { display:flex; flex-direction:column; gap:20px; }
+    .edu-card {
+      display:flex; gap:20px; padding:28px;
+      background:var(--bg-alt); border:1px solid var(--border);
+      border-radius:8px; transition:border-color .2s, box-shadow .2s;
+    }
+    .edu-card:hover { border-color:var(--blue); box-shadow:0 8px 32px var(--blue-glow); }
+    .edu-left { padding-top:4px; }
+    .edu-body { flex:1; }
+    .edu-top {
+      display:flex; justify-content:space-between; align-items:flex-start;
+      gap:16px; margin-bottom:16px; flex-wrap:wrap;
+    }
+    .edu-degree { font-size:1.05rem; font-weight:600; color:var(--text); margin-bottom:4px; }
+    .edu-school { font-size:.88rem; color:var(--blue); }
+    .edu-date {
+      font-family:'Fira Code',monospace; font-size:.76rem;
+      color:var(--text-muted); white-space:nowrap;
+    }
+    .edu-details { list-style:none; display:flex; flex-direction:column; gap:8px; }
+    .edu-details li {
+      color:var(--text-dim); font-size:.9rem; line-height:1.6;
+      padding-left:20px; position:relative;
+    }
+    .edu-details li::before { content:'▸'; position:absolute; left:0; color:var(--blue); font-size:.78rem; top:2px; }
+
     /* ─── EXPERIENCE ──────────────────────────────── */
     .tabs { display:flex; gap:0; }
     .tab-btns {
@@ -334,6 +361,7 @@
   <ul class="nav-links" id="navLinks">
     <li><a href="#about">About</a></li>
     <li><a href="#experience">Experience</a></li>
+    <li><a href="#education">Education</a></li>
     <li><a href="#projects">Projects</a></li>
     <li><a href="#skills">Skills</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -467,9 +495,64 @@
   </div>
 </section>
 
+<!-- ═══ EDUCATION ═══════════════════════════════════════════════════════════ -->
+<section id="education">
+  <div class="sec-label reveal"><span class="num">03.</span><h2>Education</h2></div>
+  <div class="edu-list">
+
+    <!-- USF -->
+    <div class="edu-card reveal">
+      <div class="edu-left">
+        <div class="edu-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="1.5" width="28" height="28"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+        </div>
+      </div>
+      <div class="edu-body">
+        <div class="edu-top">
+          <div>
+            <h3 class="edu-degree">Master of Science - Information Systems</h3>
+            <p class="edu-school">University of San Francisco, School of Management</p>
+          </div>
+          <span class="edu-date">Aug 2024 – Dec 2025</span>
+        </div>
+        <ul class="edu-details">
+          <li>Relevant coursework in AI, data engineering, cloud systems, and enterprise architecture</li>
+          <li>VP of Programming - AI in Business Club: led technical events connecting students with SF's AI industry</li>
+          <li>Graduate Student Senate representative - advocated for graduate student interests at the university level</li>
+          <li>VP - Association of Information Systems (AIS) chapter at USF</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- COEP -->
+    <div class="edu-card reveal">
+      <div class="edu-left">
+        <div class="edu-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="1.5" width="28" height="28"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+        </div>
+      </div>
+      <div class="edu-body">
+        <div class="edu-top">
+          <div>
+            <h3 class="edu-degree">Bachelor of Technology - Computer Engineering</h3>
+            <p class="edu-school">C.O.E.P. Technological University, Pune, India</p>
+          </div>
+          <span class="edu-date">Aug 2017 – May 2020</span>
+        </div>
+        <ul class="edu-details">
+          <li>Core curriculum in data structures, algorithms, operating systems, databases, and software engineering</li>
+          <li>Built a strong foundation in systems programming using C, C++, and Java</li>
+          <li>Participated in Mind Spark - COEP's annual national-level technical festival</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
 <!-- ═══ PROJECTS ════════════════════════════════════════════════════════════ -->
 <section id="projects">
-  <div class="sec-label reveal"><span class="num">03.</span><h2>Projects</h2></div>
+  <div class="sec-label reveal"><span class="num">04.</span><h2>Projects</h2></div>
   <div class="proj-grid">
 
     <!-- DataLens AI -->
@@ -543,7 +626,7 @@
 
 <!-- ═══ SKILLS ══════════════════════════════════════════════════════════════ -->
 <section id="skills">
-  <div class="sec-label reveal"><span class="num">04.</span><h2>Skills</h2></div>
+  <div class="sec-label reveal"><span class="num">05.</span><h2>Skills</h2></div>
   <div class="skills-grid">
     <div class="skill-card reveal">
       <p class="skill-cat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="margin-right:6px;vertical-align:middle"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>Languages</p>
@@ -598,7 +681,7 @@
 
 <!-- ═══ ACHIEVEMENTS ═══════════════════════════════════════════════════════ -->
 <section id="achievements">
-  <div class="sec-label reveal"><span class="num">05.</span><h2>Leadership &amp; Awards</h2></div>
+  <div class="sec-label reveal"><span class="num">06.</span><h2>Leadership &amp; Awards</h2></div>
   <div class="award-list">
     <div class="award reveal">
       <div class="award-icon">🏆</div>
