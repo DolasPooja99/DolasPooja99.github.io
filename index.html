@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pooja Dolas — Software Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0a192f;
+      --bg-alt:    #112240;
+      --bg-card:   #1a2f4e;
+      --blue:      #4fc3f7;
+      --blue-dim:  #00b4d8;
+      --blue-glow: rgba(79, 195, 247, 0.12);
+      --blue-muted:rgba(79, 195, 247, 0.08);
+      --text:      #e6f1ff;
+      --text-dim:  #ccd6f6;
+      --text-muted:#8892b0;
+      --border:    rgba(79, 195, 247, 0.18);
+      --shadow:    rgba(2, 12, 27, 0.8);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--blue-dim); border-radius: 3px; }
+    ::selection { background: rgba(79,195,247,.25); }
+
+    /* ─── NAV ─────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 22px 60px;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: all .3s ease;
+    }
+    nav.scrolled {
+      background: rgba(10,25,47,.96);
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+      padding: 14px 60px;
+      box-shadow: 0 2px 24px var(--shadow);
+    }
+    .nav-logo {
+      font-family: 'Fira Code', monospace;
+      font-size: 1.15rem; color: var(--blue); text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 32px; list-style: none; align-items: center; counter-reset: nav; }
+    .nav-links a {
+      font-family: 'Fira Code', monospace; font-size: .8rem;
+      color: var(--text-dim); text-decoration: none; transition: color .2s;
+      counter-increment: nav;
+    }
+    .nav-links a::before { content: "0" counter(nav) ". "; color: var(--blue); font-size: .72rem; }
+    .nav-links a:hover { color: var(--blue); }
+    .nav-links a.active { color: var(--blue); }
+    .nav-resume {
+      padding: 8px 16px; border: 1px solid var(--blue);
+      border-radius: 4px; color: var(--blue) !important; font-size: .78rem !important;
+      transition: background .2s;
+    }
+    .nav-resume::before { content: "" !important; }
+    .nav-resume:hover { background: var(--blue-muted); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--blue); transition: all .3s; }
+
+    /* ─── SIDEBARS ────────────────────────────────── */
+    .sidebar {
+      position: fixed; bottom: 0; z-index: 10;
+      display: flex; flex-direction: column; align-items: center; gap: 18px;
+      opacity: 0; animation: fadeIn .6s ease forwards 1.6s;
+    }
+    .sidebar::after {
+      content: ''; display: block; width: 1px; height: 80px;
+      background: var(--text-muted);
+    }
+    .sidebar-left  { left: 36px; }
+    .sidebar-right { right: 36px; }
+    .sidebar a { color: var(--text-muted); text-decoration: none; transition: color .2s, transform .2s; }
+    .sidebar a:hover { color: var(--blue); transform: translateY(-3px); }
+    .sidebar svg { width: 19px; height: 19px; fill: currentColor; }
+    .sidebar-right a {
+      writing-mode: vertical-rl;
+      font-family: 'Fira Code', monospace; font-size: .75rem;
+      letter-spacing: .12em; color: var(--text-muted);
+    }
+
+    /* ─── SECTIONS ────────────────────────────────── */
+    section {
+      max-width: 960px; margin: 0 auto;
+      padding: 100px 60px;
+    }
+    .sec-label {
+      display: flex; align-items: center; gap: 14px; margin-bottom: 48px;
+    }
+    .sec-label .num { font-family:'Fira Code',monospace; color: var(--blue); font-size: .88rem; }
+    .sec-label h2 { font-size: 1.7rem; font-weight: 700; white-space: nowrap; }
+    .sec-label::after { content:''; flex:1; height:1px; background: var(--border); }
+
+    /* ─── HERO ────────────────────────────────────── */
+    #hero {
+      min-height: 100vh; max-width: 960px;
+      display: flex; flex-direction: column; justify-content: center;
+      padding-top: 80px;
+    }
+    .hero-pre {
+      font-family:'Fira Code',monospace; font-size:1rem; color:var(--blue);
+      margin-bottom:20px; opacity:0; animation: fadeUp .6s ease forwards .3s;
+    }
+    .hero-name {
+      font-size: clamp(40px,7vw,78px); font-weight:800; color:var(--text);
+      line-height:1.1; margin-bottom:6px;
+      opacity:0; animation: fadeUp .6s ease forwards .5s;
+    }
+    .hero-title {
+      font-size: clamp(26px,4.5vw,52px); font-weight:700; color:var(--text-muted);
+      margin-bottom:28px;
+      opacity:0; animation: fadeUp .6s ease forwards .7s;
+    }
+    .hero-desc {
+      font-size:1.02rem; color:var(--text-muted); max-width:500px;
+      line-height:1.75; margin-bottom:44px;
+      opacity:0; animation: fadeUp .6s ease forwards .9s;
+    }
+    .hero-ctas {
+      display:flex; gap:18px; flex-wrap:wrap;
+      opacity:0; animation: fadeUp .6s ease forwards 1.1s;
+    }
+    .hero-badges {
+      display:flex; gap:10px; flex-wrap:wrap; margin-top:52px;
+      opacity:0; animation: fadeUp .6s ease forwards 1.3s;
+    }
+    .badge {
+      font-family:'Fira Code',monospace; font-size:.72rem;
+      color:var(--blue); background:var(--blue-muted);
+      border:1px solid var(--border); border-radius:20px;
+      padding:4px 14px;
+    }
+
+    /* ─── BUTTONS ─────────────────────────────────── */
+    .btn {
+      padding:13px 28px; border-radius:4px; font-family:'Fira Code',monospace;
+      font-size:.88rem; cursor:pointer; text-decoration:none; display:inline-block;
+      transition: transform .2s, background .2s, opacity .2s;
+    }
+    .btn:hover { transform:translateY(-2px); }
+    .btn-outline {
+      background:transparent; border:1px solid var(--blue); color:var(--blue);
+    }
+    .btn-outline:hover { background:var(--blue-muted); }
+    .btn-solid {
+      background:var(--blue); color:var(--bg); border:1px solid var(--blue);
+      font-weight:600;
+    }
+    .btn-solid:hover { opacity:.88; }
+
+    /* ─── ABOUT ───────────────────────────────────── */
+    .about-grid { display:grid; grid-template-columns:3fr 2fr; gap:56px; align-items:start; }
+    .about-text p { color:var(--text-dim); margin-bottom:16px; font-size:.97rem; line-height:1.78; }
+    .about-text strong { color:var(--text); }
+    .stats-row { display:flex; gap:32px; margin-top:36px; }
+    .stat-num { display:block; font-size:2rem; font-weight:800; color:var(--blue); }
+    .stat-label { font-family:'Fira Code',monospace; font-size:.72rem; color:var(--text-muted); }
+    .avatar-wrap { position:relative; }
+    .avatar-box {
+      width:100%; aspect-ratio:1; background:var(--bg-alt);
+      border-radius:8px; border:2px solid var(--border);
+      display:flex; align-items:center; justify-content:center;
+      font-size:4.5rem; position:relative; overflow:hidden;
+    }
+    .avatar-box::before {
+      content:''; position:absolute; inset:0;
+      background:linear-gradient(135deg,rgba(79,195,247,.12),transparent);
+    }
+    .avatar-wrap::after {
+      content:''; position:absolute; top:14px; left:14px;
+      width:100%; height:100%;
+      border:2px solid rgba(79,195,247,.4); border-radius:8px; z-index:-1;
+    }
+
+    /* ─── EXPERIENCE ──────────────────────────────── */
+    .tabs { display:flex; gap:0; }
+    .tab-btns {
+      display:flex; flex-direction:column;
+      min-width:170px; border-left:2px solid var(--border);
+    }
+    .tab-btn {
+      padding:11px 20px; background:none; border:none;
+      border-left:2px solid transparent; margin-left:-2px;
+      color:var(--text-muted); font-family:'Fira Code',monospace;
+      font-size:.8rem; cursor:pointer; text-align:left; transition:all .2s;
+    }
+    .tab-btn:hover { color:var(--blue); background:var(--blue-muted); }
+    .tab-btn.active { color:var(--blue); border-left-color:var(--blue); background:var(--blue-muted); }
+    .tab-panel { display:none; padding:0 0 0 32px; }
+    .tab-panel.active { display:block; }
+    .exp-role { font-size:1.1rem; font-weight:600; color:var(--text); margin-bottom:4px; }
+    .exp-role span { color:var(--blue); }
+    .exp-date { font-family:'Fira Code',monospace; font-size:.76rem; color:var(--text-muted); margin-bottom:22px; }
+    .exp-list { list-style:none; display:flex; flex-direction:column; gap:10px; }
+    .exp-list li {
+      color:var(--text-dim); font-size:.92rem; line-height:1.65;
+      padding-left:20px; position:relative;
+    }
+    .exp-list li::before { content:'▸'; position:absolute; left:0; color:var(--blue); font-size:.78rem; top:2px; }
+    .exp-list strong { color:var(--blue); font-weight:600; }
+
+    /* ─── PROJECTS ────────────────────────────────── */
+    .proj-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+    .proj-card {
+      background:var(--bg-alt); border:1px solid var(--border); border-radius:8px;
+      padding:26px; display:flex; flex-direction:column;
+      transition:transform .25s, border-color .25s, box-shadow .25s;
+    }
+    .proj-card:hover {
+      transform:translateY(-6px); border-color:var(--blue);
+      box-shadow:0 16px 48px var(--blue-glow);
+    }
+    .proj-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:18px; }
+    .proj-icon svg { width:30px; height:30px; fill:none; stroke:var(--blue); stroke-width:1.5; }
+    .proj-links { display:flex; gap:12px; }
+    .proj-links a { color:var(--text-muted); text-decoration:none; transition:color .2s; }
+    .proj-links a:hover { color:var(--blue); }
+    .proj-links svg { width:19px; height:19px; fill:currentColor; }
+    .proj-title { font-size:1.02rem; font-weight:600; color:var(--text); margin-bottom:10px; }
+    .proj-desc { color:var(--text-muted); font-size:.86rem; line-height:1.65; flex:1; margin-bottom:18px; }
+    .proj-tags { display:flex; flex-wrap:wrap; gap:8px; margin-top:auto; }
+    .tag {
+      font-family:'Fira Code',monospace; font-size:.7rem;
+      color:var(--blue); background:var(--blue-muted);
+      padding:3px 10px; border-radius:20px;
+    }
+
+    /* ─── SKILLS ──────────────────────────────────── */
+    .skills-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:20px; }
+    .skill-card {
+      background:var(--bg-alt); border:1px solid var(--border); border-radius:8px;
+      padding:22px; transition:border-color .2s;
+    }
+    .skill-card:hover { border-color:var(--blue); }
+    .skill-cat {
+      font-family:'Fira Code',monospace; font-size:.76rem; color:var(--blue);
+      text-transform:uppercase; letter-spacing:.06em; margin-bottom:14px;
+    }
+    .pills { display:flex; flex-wrap:wrap; gap:7px; }
+    .pill {
+      font-size:.78rem; color:var(--text-dim);
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(136,146,176,.2);
+      padding:3px 10px; border-radius:4px;
+    }
+
+    /* ─── ACHIEVEMENTS ────────────────────────────── */
+    .award-list { display:flex; flex-direction:column; gap:16px; }
+    .award {
+      display:flex; gap:18px; padding:20px 22px;
+      background:var(--bg-alt); border:1px solid var(--border); border-radius:8px;
+      align-items:flex-start; transition:border-color .2s;
+    }
+    .award:hover { border-color:var(--blue); }
+    .award-icon { font-size:1.5rem; min-width:36px; text-align:center; padding-top:2px; }
+    .award-title { font-weight:600; color:var(--text); margin-bottom:5px; }
+    .award-title span { color:var(--blue); }
+    .award-desc { font-size:.87rem; color:var(--text-muted); line-height:1.6; }
+
+    /* ─── CONTACT ─────────────────────────────────── */
+    #contact { text-align:center; padding:80px 60px 120px; }
+    .contact-pre { font-family:'Fira Code',monospace; font-size:.84rem; color:var(--blue); margin-bottom:14px; }
+    .contact-h { font-size:clamp(34px,5vw,54px); font-weight:800; margin-bottom:20px; }
+    .contact-sub { color:var(--text-muted); font-size:.97rem; max-width:460px; margin:0 auto 40px; line-height:1.75; }
+    .contact-links { display:flex; justify-content:center; gap:16px; flex-wrap:wrap; }
+
+    /* ─── FOOTER ──────────────────────────────────── */
+    footer {
+      text-align:center; padding:24px;
+      font-family:'Fira Code',monospace; font-size:.72rem; color:var(--text-muted);
+    }
+
+    /* ─── ANIMATIONS ──────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(20px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity:0; }
+      to   { opacity:1; }
+    }
+    .reveal {
+      opacity:0; transform:translateY(22px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .reveal.vis { opacity:1; transform:translateY(0); }
+
+    /* ─── MOBILE ──────────────────────────────────── */
+    @media (max-width:768px) {
+      nav, nav.scrolled { padding:16px 22px; }
+      .nav-links { display:none; }
+      .hamburger { display:flex; }
+      section, #hero { padding:80px 22px; }
+      .about-grid { grid-template-columns:1fr; }
+      .avatar-wrap { display:none; }
+      .proj-grid { grid-template-columns:1fr; }
+      .tabs { flex-direction:column; }
+      .tab-btns {
+        flex-direction:row; border-left:none;
+        border-bottom:2px solid var(--border);
+        overflow-x:auto; min-width:unset;
+      }
+      .tab-btn { border-left:none; border-bottom:2px solid transparent; margin-left:0; margin-bottom:-2px; white-space:nowrap; }
+      .tab-btn.active { border-left-color:transparent; border-bottom-color:var(--blue); }
+      .tab-panel { padding:24px 0 0; }
+      .sidebar { display:none; }
+      .stats-row { gap:18px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══════════════════════════════════════════════════════════════ -->
+<nav id="nav">
+  <a href="#hero" class="nav-logo">&lt;PD /&gt;</a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="mailto:padolas@dons.usfca.edu" class="nav-resume">Resume</a></li>
+  </ul>
+  <div class="hamburger" id="burger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- ═══ SIDEBARS ══════════════════════════════════════════════════════════ -->
+<div class="sidebar sidebar-left">
+  <a href="https://github.com/DolasPooja99" target="_blank" aria-label="GitHub">
+    <svg viewBox="0 0 24 24"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+  </a>
+  <a href="https://linkedin.com/in/poojadolas" target="_blank" aria-label="LinkedIn">
+    <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+  </a>
+  <a href="mailto:padolas@dons.usfca.edu" aria-label="Email">
+    <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+  </a>
+</div>
+<div class="sidebar sidebar-right">
+  <a href="mailto:padolas@dons.usfca.edu">padolas@dons.usfca.edu</a>
+</div>
+
+<!-- ═══ HERO ═══════════════════════════════════════════════════════════════ -->
+<section id="hero">
+  <p class="hero-pre">Hi, my name is</p>
+  <h1 class="hero-name">Pooja Dolas.</h1>
+  <h2 class="hero-title">I build AI platforms &amp; backend systems.</h2>
+  <p class="hero-desc">
+    Software engineer with 3+ years building scalable data pipelines, GenAI platforms,
+    and cloud infrastructure. Graduate of USF - happy to connect for any Software Engineering
+    or Data Engineering opportunities.
+  </p>
+  <div class="hero-ctas">
+    <a href="#projects" class="btn btn-outline">See My Work</a>
+    <a href="#contact"  class="btn btn-solid">Get In Touch</a>
+  </div>
+  <div class="hero-badges">
+    <span class="badge">Python</span>
+    <span class="badge">AWS</span>
+    <span class="badge">Generative AI</span>
+    <span class="badge">ETL Pipelines</span>
+    <span class="badge">Terraform</span>
+    <span class="badge">FastAPI</span>
+  </div>
+</section>
+
+<!-- ═══ ABOUT ══════════════════════════════════════════════════════════════ -->
+<section id="about">
+  <div class="sec-label reveal"><span class="num">01.</span><h2>About Me</h2></div>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p>
+        Hey, I'm Pooja - a software engineer with 3+ years of experience building backend systems and data pipelines, now focused on AI-powered products in San Francisco.
+      </p>
+      <p>
+        Fresh out of my <strong>MS in Information Systems</strong> at the <strong>University of San Francisco</strong> (Dec 2025),
+        I'm right in the heart of San Francisco's AI scene - building, learning, and growing every day.
+      </p>
+      <p>
+        With <strong>3+ years in software engineering and data engineering</strong>, I've built
+        everything from fault-tolerant ETL pipelines and distributed backend systems to GenAI
+        platforms serving real users. I'm now leaning hard into the <strong>AI space</strong> -
+        bringing that engineering foundation to ML pipelines, LLM integrations, and intelligent
+        systems that actually scale.
+      </p>
+      <p>
+        When I'm not in front of a screen, you'll find me on the <strong>pickleball court</strong>
+        or deep in a PS5 session. Work hard, play harder. ✌️
+      </p>
+      <p style="margin-top:24px; font-size:1.05rem; color:var(--blue); font-style:italic; border-left:3px solid var(--blue); padding-left:16px; line-height:1.6;">
+        "I don't just want to write code - I want to build things that actually matter."
+      </p>
+      <div class="stats-row">
+        <div><span class="stat-num">3+</span><span class="stat-label">yrs exp</span></div>
+        <div><span class="stat-num">MS</span><span class="stat-label">grad Dec '25</span></div>
+        <div><span class="stat-num">80%</span><span class="stat-label">ops overhead cut</span></div>
+        <div><span class="stat-num">6+</span><span class="stat-label">projects built</span></div>
+      </div>
+    </div>
+    <div class="avatar-wrap reveal">
+      <div class="avatar-box" style="padding:0;overflow:hidden;"><img src="photo.jpeg" alt="Pooja Dolas" style="width:100%;height:100%;object-fit:cover;object-position:center top;border-radius:6px;" /></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ EXPERIENCE ═════════════════════════════════════════════════════════ -->
+<section id="experience">
+  <div class="sec-label reveal"><span class="num">02.</span><h2>Experience</h2></div>
+  <div class="tabs reveal">
+    <div class="tab-btns">
+      <button class="tab-btn active" onclick="tab(this,'qovai')">Quovai</button>
+      <button class="tab-btn"        onclick="tab(this,'prsde')">Prorigo SDE</button>
+      <button class="tab-btn"        onclick="tab(this,'prjr')">Prorigo Jr.</button>
+    </div>
+
+    <div id="qovai" class="tab-panel active">
+      <p class="exp-role">AI Software Engineer Intern <span>@ Quovai</span></p>
+      <p class="exp-date">June 2025 – Aug 2025 · San Francisco, CA</p>
+      <ul class="exp-list">
+        <li>Reduced unnecessary regeneration requests by <strong>30%</strong> by building and optimizing scalable GenAI image generation pipelines in Python with Google Gemini and OpenAI APIs, through pipeline tuning, fault handling, and end-to-end validation.</li>
+<li>Increased customer engagement by <strong>25%</strong> by instrumenting backend services with event-level telemetry using Google Analytics and Mixpanel, enabling data-informed product iteration.</li>
+        <li>Reduced gap between deployment and confirmed stability by owning post-deployment validation, catching regressions early and coordinating fixes across shipped features.</li>
+      </ul>
+    </div>
+
+    <div id="prsde" class="tab-panel">
+      <p class="exp-role">Software Development Engineer <span>@ Prorigo Software</span></p>
+      <p class="exp-date">Apr 2023 – Jul 2024 · Pune, India</p>
+      <ul class="exp-list">
+        <li>Built the user login flow and admin dashboard for Prorigo's multi-tenant SaaS portal using Angular, React, JavaScript, HTML, and CSS, translating product requirements into responsive, role-aware interfaces.</li>
+        <li>Guaranteed consistency and traceability at scale by leading migration of <strong>1TB+</strong> of enterprise CAD data across distributed PLM and manufacturing systems, designing fault-tolerant backend workflows in C# and Java.</li>
+        <li>Eliminated data inconsistencies across downstream systems by architecting synchronization and sequencing logic for <strong>20+</strong> dependent distributed background jobs in Java, improving overall job reliability.</li>
+        <li>Reduced operational overhead by <strong>80%</strong> by automating Azure IAM security audits using CI/CD pipelines and PowerShell, improving security posture across multiple concurrent projects.</li>
+        <li>Extended core PLM platform capabilities by authoring <strong>40+</strong> custom C# and JavaScript services integrating ERP and MES systems via AML and REST APIs, automating background workflows.</li>
+      </ul>
+    </div>
+
+    <div id="prjr" class="tab-panel">
+      <p class="exp-role">Jr. Software Development Engineer <span>@ Prorigo Software</span></p>
+      <p class="exp-date">May 2021 – Apr 2023 · Pune, India</p>
+      <ul class="exp-list">
+        <li>Resolved critical production bugs in Prorigo's PLM product, diagnosing root causes across the backend stack and improving product stability.</li>
+        <li>Eliminated data mismatches and saved <strong>20+ hours</strong> per migration cycle by automating file sequencing and versioning logic in C#, removing the need for manual audits.</li>
+        <li>Increased data ingestion throughput by <strong>35%</strong> by designing optimized SSIS pipelines and SQL stored procedures that enforced business-rule validation at scale.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PROJECTS ════════════════════════════════════════════════════════════ -->
+<section id="projects">
+  <div class="sec-label reveal"><span class="num">03.</span><h2>Projects</h2></div>
+  <div class="proj-grid">
+
+    <!-- DataLens AI -->
+    <div class="proj-card reveal">
+      <div class="proj-top">
+        <div class="proj-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="1.5"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></div>
+        <div class="proj-links"><a href="https://github.com/DolasPooja99/datalens-ai" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor" width="19" height="19"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg></a></div>
+      </div>
+      <h3 class="proj-title"><a href="https://github.com/DolasPooja99/datalens-ai" target="_blank" style="color:inherit;text-decoration:none;">DataLens AI</a></h3>
+      <p class="proj-desc">Autonomous data analytics agent that answers natural language questions about databases, performs statistical profiling, data cleaning, and trains ML models - with multi-database support and PDF report export.</p>
+      <div class="proj-tags"><span class="tag">Python</span><span class="tag">Claude AI</span><span class="tag">DuckDB</span><span class="tag">Scikit-learn</span><span class="tag">Streamlit</span><span class="tag">dbt</span></div>
+    </div>
+
+    <!-- AlphaSignal -->
+    <div class="proj-card reveal">
+      <div class="proj-top">
+        <div class="proj-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+        <div class="proj-links"><a href="https://github.com/DolasPooja99/AlphaSignal" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor" width="19" height="19"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg></a></div>
+      </div>
+      <h3 class="proj-title"><a href="https://github.com/DolasPooja99/AlphaSignal" target="_blank" style="color:inherit;text-decoration:none;">AlphaSignal</a></h3>
+      <p class="proj-desc">AI-powered stock analysis platform with 90-day anomaly detection, 7-day forecasts, sentiment-scored news, and AI-generated research reports - achieving 90% cost savings through prompt caching.</p>
+      <div class="proj-tags"><span class="tag">Python</span><span class="tag">Claude AI</span><span class="tag">Prophet</span><span class="tag">pgvector</span><span class="tag">Streamlit</span><span class="tag">Plotly</span></div>
+    </div>
+
+    <!-- ImpactLog -->
+    <div class="proj-card reveal">
+      <div class="proj-top">
+        <div class="proj-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+        <div class="proj-links"><a href="https://github.com/DolasPooja99/ImpactLog" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor" width="19" height="19"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg></a></div>
+      </div>
+      <h3 class="proj-title"><a href="https://github.com/DolasPooja99/ImpactLog" target="_blank" style="color:inherit;text-decoration:none;">ImpactLog</a></h3>
+      <p class="proj-desc">CLI tool for engineers to log and track professional accomplishments with AI-powered categorization, automatic weekly summary generation, and local SQLite storage for privacy.</p>
+      <div class="proj-tags"><span class="tag">Python</span><span class="tag">Claude API</span><span class="tag">SQLite</span><span class="tag">CLI</span></div>
+    </div>
+
+    <!-- RAG KnowledgePilot -->
+    <div class="proj-card reveal">
+      <div class="proj-top">
+        <div class="proj-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+        <div class="proj-links"><a href="https://github.com/DolasPooja99/RAG-KnowledgePilot" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor" width="19" height="19"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg></a></div>
+      </div>
+      <h3 class="proj-title"><a href="https://github.com/DolasPooja99/RAG-KnowledgePilot" target="_blank" style="color:inherit;text-decoration:none;">RAG KnowledgePilot</a></h3>
+      <p class="proj-desc">Document intelligence app enabling AI-powered Q&amp;A on uploaded PDFs with semantic search, source citations, and multi-document querying - responses grounded in document sources via pgvector.</p>
+      <div class="proj-tags"><span class="tag">Python</span><span class="tag">LangChain</span><span class="tag">Claude API</span><span class="tag">pgvector</span><span class="tag">HuggingFace</span><span class="tag">Streamlit</span></div>
+    </div>
+
+    <!-- AWS Cost Optimization -->
+    <div class="proj-card reveal">
+      <div class="proj-top">
+        <div class="proj-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+        <div class="proj-links"><a href="https://github.com/DolasPooja99/cloud-cost-optimizer" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor" width="19" height="19"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg></a></div>
+      </div>
+      <h3 class="proj-title"><a href="https://github.com/DolasPooja99/cloud-cost-optimizer" target="_blank" style="color:inherit;text-decoration:none;">Automated AWS Cost Optimization</a></h3>
+      <p class="proj-desc">Terraform-managed AWS infrastructure integrating EC2, Budgets, and CloudWatch with intelligent resource allocation - projected 40% reduction in monthly cloud spend.</p>
+      <div class="proj-tags"><span class="tag">Terraform</span><span class="tag">AWS</span><span class="tag">EC2</span><span class="tag">CloudWatch</span><span class="tag">CI/CD</span><span class="tag">IaC</span></div>
+    </div>
+
+    <!-- Customer Churn -->
+    <div class="proj-card reveal">
+      <div class="proj-top">
+        <div class="proj-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
+        <div class="proj-links"><a href="https://github.com/DolasPooja99/Customer_Churn_Prediction_System" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor" width="19" height="19"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg></a></div>
+      </div>
+      <h3 class="proj-title"><a href="https://github.com/DolasPooja99/Customer_Churn_Prediction_System" target="_blank" style="color:inherit;text-decoration:none;">Customer Churn Prediction</a></h3>
+      <p class="proj-desc">Full-stack ML system: logistic regression model served via FastAPI, interactive Streamlit dashboard for real-time business insights, containerised with Docker for production deployment.</p>
+      <div class="proj-tags"><span class="tag">Python</span><span class="tag">FastAPI</span><span class="tag">Scikit-learn</span><span class="tag">Streamlit</span><span class="tag">Docker</span></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══ SKILLS ══════════════════════════════════════════════════════════════ -->
+<section id="skills">
+  <div class="sec-label reveal"><span class="num">04.</span><h2>Skills</h2></div>
+  <div class="skills-grid">
+    <div class="skill-card reveal">
+      <p class="skill-cat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="margin-right:6px;vertical-align:middle"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>Languages</p>
+      <div class="pills">
+        <span class="pill">Python</span><span class="pill">Java</span>
+        <span class="pill">C#</span><span class="pill">TypeScript</span>
+        <span class="pill">SQL</span><span class="pill">NoSQL</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <p class="skill-cat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="margin-right:6px;vertical-align:middle"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>Backend &amp; Systems</p>
+      <div class="pills">
+        <span class="pill">REST APIs</span><span class="pill">FastAPI</span>
+        <span class="pill">Microservices</span><span class="pill">Distributed Jobs</span>
+        <span class="pill">Async Processing</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <p class="skill-cat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="margin-right:6px;vertical-align:middle"><path d="M18 10h-1.26A8 8 0 109 20h9a5 5 0 000-10z"/></svg>Cloud &amp; Infra</p>
+      <div class="pills">
+        <span class="pill">AWS</span><span class="pill">Azure</span>
+        <span class="pill">Terraform</span><span class="pill">Docker</span>
+        <span class="pill">CI/CD</span><span class="pill">DevOps</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <p class="skill-cat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="margin-right:6px;vertical-align:middle"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>Data &amp; Warehousing</p>
+      <div class="pills">
+        <span class="pill">ETL Pipelines</span><span class="pill">SSIS</span>
+        <span class="pill">SQL Server</span><span class="pill">DynamoDB</span>
+        <span class="pill">AWS RDS</span><span class="pill">DBT</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <p class="skill-cat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="margin-right:6px;vertical-align:middle"><path d="M12 2a4 4 0 014 4v1h1a3 3 0 013 3v2a3 3 0 01-3 3h-1v1a4 4 0 01-8 0v-1H7a3 3 0 01-3-3v-2a3 3 0 013-3h1V6a4 4 0 014-4z"/><circle cx="9" cy="10" r="1" fill="currentColor"/><circle cx="15" cy="10" r="1" fill="currentColor"/></svg>AI &amp; Machine Learning</p>
+      <div class="pills">
+        <span class="pill">Generative AI</span><span class="pill">LLM APIs</span>
+        <span class="pill">OpenAI</span><span class="pill">Scikit-learn</span>
+        <span class="pill">Prompt Engineering</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <p class="skill-cat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="margin-right:6px;vertical-align:middle"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>Tools &amp; Practices</p>
+      <div class="pills">
+        <span class="pill">Git</span><span class="pill">Code Review</span>
+        <span class="pill">Unit Testing</span><span class="pill">Agile</span>
+        <span class="pill">PowerShell</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ACHIEVEMENTS ═══════════════════════════════════════════════════════ -->
+<section id="achievements">
+  <div class="sec-label reveal"><span class="num">05.</span><h2>Leadership &amp; Awards</h2></div>
+  <div class="award-list">
+    <div class="award reveal">
+      <div class="award-icon">🏆</div>
+      <div>
+        <p class="award-title"><span>2nd Place</span> - AI × Longevity Hackathon</p>
+        <p class="award-desc">Recognised for developing a novel data pipeline to publish scRNA-seq data to Hugging Face, aiding ML practitioners in aging research.</p>
+      </div>
+    </div>
+    <div class="award reveal">
+      <div class="award-icon">🎓</div>
+      <div>
+        <p class="award-title"><span>VP of Programming</span> - AI in Business Club · USF</p>
+        <p class="award-desc">Lead programming initiatives for the AI in Business Club at the University of San Francisco.</p>
+      </div>
+    </div>
+    <div class="award reveal">
+      <div class="award-icon">🎓</div>
+      <div>
+        <p class="award-title"><span>Graduate Student Senate</span> - USF</p>
+        <p class="award-desc">Represented graduate students in university governance, advocating for student interests and contributing to institutional decision-making at USF.</p>
+      </div>
+    </div>
+    <div class="award reveal">
+      <div class="award-icon">🎓</div>
+      <div>
+        <p class="award-title"><span>VP</span> - Association of Information Systems · USF</p>
+        <p class="award-desc">Served as Vice President of the AIS chapter at USF, organizing events and initiatives connecting students with industry professionals in the information systems field.</p>
+      </div>
+    </div>
+    <div class="award reveal">
+      <div class="award-icon">🤝</div>
+      <div>
+        <p class="award-title"><span>Volunteer &amp; Mentor</span> - SF Tech Community</p>
+        <p class="award-desc">Active contributor at AI by the Bay 2025, TechSpark 2024, CES Meetup SF, TiE Silicon Valley, and COEP Mind Spark - mentoring aspiring engineers across the Bay Area.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr style="border:none; border-top:1px solid rgba(79,195,247,0.18); max-width:960px; margin:0 auto;" />
+
+<!-- ═══ CONTACT ═════════════════════════════════════════════════════════════ -->
+<section id="contact">
+  <p class="contact-pre">06. What's Next?</p>
+  <h2 class="contact-h">Let's Work Together</h2>
+  <p class="contact-sub">
+    I'm currently open to full-time Software Engineering and Data Engineering opportunities. Have an opportunity,
+    a question, or just want to connect? My inbox is always open.
+  </p>
+  <div class="contact-links">
+    <a href="mailto:padolas@dons.usfca.edu"             class="btn btn-solid">Say Hello</a>
+    <a href="https://linkedin.com/in/poojadolas" target="_blank" class="btn btn-outline">LinkedIn</a>
+    <a href="https://github.com/DolasPooja99"    target="_blank" class="btn btn-outline">GitHub</a>
+  </div>
+</section>
+
+<footer>Designed &amp; built by <a href="#hero">Pooja Dolas</a></footer>
+
+<!-- ═══ JS ══════════════════════════════════════════════════════════════════ -->
+<script>
+  // Nav scroll effect
+  const navEl = document.getElementById('nav');
+  window.addEventListener('scroll', () => navEl.classList.toggle('scrolled', scrollY > 50), { passive: true });
+
+  // Active nav highlight
+  const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+  const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(a => a.classList.remove('active'));
+        const active = document.querySelector(`.nav-links a[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { threshold: 0.4 });
+  document.querySelectorAll('section[id]').forEach(s => sectionObserver.observe(s));
+
+
+  // Scroll reveal
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  // Tab switch
+  function tab(btn, id) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(id).classList.add('active');
+  }
+
+  // Mobile menu
+  function toggleMenu() {
+    const links = document.getElementById('navLinks');
+    const open  = links.style.display === 'flex';
+    links.style.display          = open ? 'none' : 'flex';
+    links.style.flexDirection    = 'column';
+    links.style.position         = 'absolute';
+    links.style.top              = '58px';
+    links.style.right            = '22px';
+    links.style.background       = 'rgba(17,34,64,.98)';
+    links.style.padding          = '20px 24px';
+    links.style.borderRadius     = '8px';
+    links.style.border           = '1px solid rgba(79,195,247,.2)';
+    links.style.backdropFilter   = 'blur(10px)';
+    links.style.gap              = '16px';
+    if (open) links.style.display = 'none';
+  }
+
+  // Close mobile menu on link click
+  document.querySelectorAll('.nav-links a').forEach(a =>
+    a.addEventListener('click', () => {
+      const links = document.getElementById('navLinks');
+      if (window.innerWidth <= 768) links.style.display = 'none';
+    })
+  );
+</script>
+</body>
+</html>
